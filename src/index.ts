@@ -2,6 +2,7 @@
 
 import { createApiClient } from "./api/client.js"
 import { depsCommand } from "./commands/deps.js"
+import { devCommand } from "./commands/dev.js"
 import { reposCommand } from "./commands/repos.js"
 import { statusCommand } from "./commands/status.js"
 import { teamsCommand } from "./commands/teams.js"
@@ -39,6 +40,9 @@ const main = async (): Promise<void> => {
       case "deps":
         result = await depsCommand(client, args, flags)
         break
+      case "dev":
+        result = await devCommand(args, flags)
+        break
       case "version":
         result = "@gittan/cli 0.1.0"
         break
@@ -70,6 +74,7 @@ const help = (): string =>
     "  teams               Manage teams",
     "  repos               Manage repositories",
     "  deps                Dependency graph and detection",
+    "  dev                 Local multi-repo development",
     "  version             Show CLI version",
     "",
     "Global flags:",
