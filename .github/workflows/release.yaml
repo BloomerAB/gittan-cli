@@ -1,0 +1,38 @@
+name: Build and publish CLI
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm typecheck
+
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+
+      - id: version
+        run: echo "version=$(node -p "require('./package.json').version")" >> $GITHUB_OUTPUT
+
+      - name: Build binaries
+        run: bash scripts/build-all.sh ${{ steps.version.outputs.version }}
+
+      - name: Publish to Forgejo packages
+        run: bash scripts/publish.sh ${{ steps.version.outputs.version }}
+        env:
+          FORGEJO_URL: ${{ secrets.FORGEJO_URL }}
+          FORGEJO_TOKEN: ${{ secrets.FORGEJO_ADMIN_TOKEN }}
