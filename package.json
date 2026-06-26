@@ -7,6 +7,8 @@
   },
   "scripts": {
     "build": "tsc",
+    "build:binary": "bash scripts/build-all.sh",
+    "publish:binary": "bash scripts/publish.sh",
     "dev": "tsx src/index.ts",
     "test": "vitest run",
     "test:watch": "vitest",
@@ -14,7 +16,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/BloomerAB/gittan-cli.git"
+    "url": "git+https://gittan.eu/bloomer/gittan-cli.git"
   },
   "dependencies": {
     "zod": "^3.25.67"
