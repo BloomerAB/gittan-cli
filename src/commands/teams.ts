@@ -45,6 +45,12 @@ export const teamsCommand = async (
       return output(await client.teams.members(teamId), format)
     }
 
+    case "metrics": {
+      const teamId = args[1]
+      if (!teamId) return "Error: team ID required"
+      return output(await client.teams.metrics(teamId), format)
+    }
+
     default:
       return [
         "Usage: gittan teams <command>",
@@ -54,6 +60,7 @@ export const teamsCommand = async (
         "  get <id|name>            Get team details",
         "  create <name>            Create a new team",
         "  members <team-id>        List team members",
+        "  metrics <team-id>        Show team metrics (DORA metrics)",
         "",
         "Flags:",
         "  --org <org-id>           Organization (default: default)",

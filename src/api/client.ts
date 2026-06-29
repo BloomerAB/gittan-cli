@@ -41,6 +41,7 @@ export const createApiClient = (config: TGittanApiConfig) => {
         request<unknown>("POST", `/teams/${teamId}/members`, body),
       removeMember: (teamId: string, userId: string) =>
         request<void>("DELETE", `/teams/${teamId}/members/${userId}`),
+      metrics: (teamId: string) => request<unknown>("GET", `/teams/${teamId}/metrics`),
     },
 
     repos: {
@@ -48,6 +49,10 @@ export const createApiClient = (config: TGittanApiConfig) => {
       listByTeam: (teamId: string) => request<unknown[]>("GET", `/teams/${teamId}/repos`),
       create: (orgId: string, body: { name: string; teamId: string; description?: string; tags?: string[] }) =>
         request<unknown>("POST", `/orgs/${orgId}/repos`, body),
+    },
+
+    pipelines: {
+      listByTeam: (teamId: string) => request<unknown[]>("GET", `/teams/${teamId}/pipelines`),
     },
   }
 }

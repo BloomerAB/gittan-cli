@@ -3,6 +3,7 @@
 import { createApiClient } from "./api/client.js"
 import { depsCommand } from "./commands/deps.js"
 import { devCommand } from "./commands/dev.js"
+import { pipelinesCommand } from "./commands/pipelines.js"
 import { reposCommand } from "./commands/repos.js"
 import { statusCommand } from "./commands/status.js"
 import { teamsCommand } from "./commands/teams.js"
@@ -36,6 +37,9 @@ const main = async (): Promise<void> => {
         break
       case "repos":
         result = await reposCommand(client, args, flags)
+        break
+      case "pipelines":
+        result = await pipelinesCommand(client, args, flags)
         break
       case "deps":
         result = await depsCommand(client, args, flags)
@@ -73,6 +77,7 @@ const help = (): string =>
     "  status              API health and connectivity",
     "  teams               Manage teams",
     "  repos               Manage repositories",
+    "  pipelines           View team pipelines",
     "  deps                Dependency graph and detection",
     "  dev                 Local multi-repo development",
     "  version             Show CLI version",
